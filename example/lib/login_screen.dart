@@ -146,6 +146,11 @@ class LoginScreen extends StatelessWidget {
         }
         return null;
       },
+      onSignupPressed: () {
+        print(
+            'onSignupPressed - navigate to different route if you need complex registration form');
+        return null;
+      },
       onLogin: (loginData) {
         print('Login info');
         print('Name: ${loginData.name}');

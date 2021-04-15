@@ -31,6 +31,7 @@ class AuthCard extends StatefulWidget {
     this.passwordValidator,
     this.onSubmit,
     this.onSubmitCompleted,
+    this.onSignupPressed,
     this.hideForgotPasswordButton = false,
     this.hideSignUpButton = false,
     this.loginAfterSignUp = true,
@@ -42,6 +43,7 @@ class AuthCard extends StatefulWidget {
   final FormFieldValidator<String>? passwordValidator;
   final Function? onSubmit;
   final Function? onSubmitCompleted;
+  final Function? onSignupPressed;
   final bool hideForgotPasswordButton;
   final bool hideSignUpButton;
   final bool loginAfterSignUp;
@@ -298,6 +300,13 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
                     emailValidator: widget.emailValidator,
                     passwordValidator: widget.passwordValidator,
                     onSwitchRecoveryPassword: () => _switchRecovery(true),
+                    onSignupPressed: () {
+                      if (widget.onSignupPressed != null) {
+                        widget.onSignupPressed!();
+                        return true;
+                      }
+                      return false;
+                    },
                     onSubmitCompleted: () {
                       _forwardChangeRouteAnimation().then((_) {
                         widget.onSubmitCompleted!();
@@ -345,6 +354,7 @@ class _LoginCard extends StatefulWidget {
     required this.passwordValidator,
     required this.onSwitchRecoveryPassword,
     this.onSwitchAuth,
+    this.onSignupPressed,
     this.onSubmitCompleted,
     this.hideForgotPasswordButton = false,
     this.hideSignUpButton = false,
@@ -357,6 +367,7 @@ class _LoginCard extends StatefulWidget {
   final Function onSwitchRecoveryPassword;
   final Function? onSwitchAuth;
   final Function? onSubmitCompleted;
+  final Function? onSignupPressed;
   final bool hideForgotPasswordButton;
   final bool hideSignUpButton;
   final bool loginAfterSignUp;
@@ -472,6 +483,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
   void _switchAuthMode() {
     final auth = Provider.of<Auth>(context, listen: false);
+    //print(widget.onSignupPressed);
+    //I want to use custom register form instead
+    if (widget.onSignupPressed!()) {
+      //widget.onSignupPressed!();
+      return;
+    }
+
     final newAuthMode = auth.switchAuth();
 
     if (newAuthMode == AuthMode.Signup) {

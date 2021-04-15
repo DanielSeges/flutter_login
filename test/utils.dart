@@ -15,6 +15,7 @@ class LoginCallback {
   String? emailValidator(String? value) => null;
   String? passwordValidator(String? value) => null;
   void onSubmitAnimationCompleted() {}
+  void onSignupPressed() {}
 }
 
 class MockCallback extends Mock implements LoginCallback {}
